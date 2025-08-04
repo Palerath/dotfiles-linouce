@@ -2,16 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
    imports =
       [ # Include the results of the hardware scan.
          ./hardware-configuration.nix
-         ./logiciels.nix
          ./bootloader.nix
          ./raccourcis.nix
          ../../users/estelle/home.nix
+         ../../common/default.nix
       ];
 
 
@@ -26,9 +26,10 @@
    networking.networkmanager.enable = true;
 
    nix.settings.experimental-features = [ "nix-command" "flakes" ];
-   system.autoUpgrade.enable = true;
-   system.autoUpgrade.allowReboot = false;
-   nix.optimise.automatic = true;
+
+   environment.sessionVariables = {
+      NH_FLAKE = lib.mkDefault "/home/estelle/config-ordi";
+   };
 
    # Set your time zone.
    time.timeZone = "Europe/Paris";
@@ -105,6 +106,7 @@
    environment.systemPackages = with pkgs; [
       vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       wget
+      home-manager
    ];
 
    # Some programs need SUID wrappers, can be configured further or are

@@ -1,7 +1,7 @@
 {
 	programs.bash = {
 		shellAliases = {
-			maj = "sudo nixos-rebuild switch";
+			maj = "cd /home/estelle/config-ordi/scripts && ./maj-ordi.sh && cd ..";
 		};
 	};
 }
